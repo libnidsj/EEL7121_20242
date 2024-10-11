@@ -1,0 +1,39 @@
+from machine import Pin, time_pulse_us
+import time
+import math
+
+'''
+Sample 1
+Vih -> 1.60V
+Vil -> 1.24V
+
+Sample 2
+Vih -> 1.58V
+Vil -> 1.20V
+
+Sample 3
+Vih -> 1.62V
+Vil -> 1.20V
+
+Average
+Vih -> 1.60V
+Vil -> 1.2067V
+'''
+
+pin_measure = Pin(14, Pin.IN)
+pin_trg = Pin(15, Pin.OUT)
+
+pin_measure_stat = 0
+pin_trg.off()
+
+while(1):
+    if(pin_measure_stat == 0):
+        if(pin_measure.value() == 1):
+            pin_measure_stat = 1
+            pin_trg.on()
+    else:
+        if(pin_measure.value() == 0):
+            pin_measure_stat = 0
+            pin_trg.off()
+    time.sleep_us(100)
+
